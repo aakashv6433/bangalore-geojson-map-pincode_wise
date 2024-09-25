@@ -3,89 +3,18 @@ import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import bangalore from "../data/bangalore.json";
 import { FaTrash, FaTimes } from "react-icons/fa";
-
-const colors = [
-  "#FF5733", // Vivid Red-Orange
-  "#33FF57", // Bright Green
-  "#3357FF", // Bright Blue
-  "#FF33A1", // Vivid Pink
-  "#F1C40F", // Bright Yellow
-  "#8E44AD", // Vivid Purple
-  "#1ABC9C", // Bright Teal
-  "#E67E22", // Vivid Orange
-  "#2C3E50", // Dark Blue-Gray
-  "#D35400", // Dark Orange
-  "#9B59B6", // Amethyst
-  "#2980B9", // Bright Azure
-  "#C0392B", // Bright Red
-  "#F39C12", // Vivid Gold
-  "#27AE60", // Medium Green
-  "#34495E", // Dark Slate Blue
-  "#FF9F00", // Vivid Amber
-  // "#C0C0C0", // Silver
-  "#2ECC71", // Medium Green
-  "#E74C3C", // Vivid Red
-  "#8E44AD", // Purple
-  "#3498DB", // Light Blue
-  "#F1C40F", // Yellow
-  "#DCDCDC", // Gainsboro
-];
+import { colors } from "../constants";
+import Modal from "./Modal";
+import {
+  buttonStyles,
+  cellStyles,
+  headerStyles,
+  noZonesContainerStyles,
+  tableStyles,
+  zoneStyles,
+} from "../styles";
 
 const usedColors = new Set();
-
-const Modal = ({
-  show,
-  onClose,
-  onAddFeature,
-  zones,
-  selectedZone,
-  setSelectedZone,
-  selectedFeature,
-  setSelectedFeature,
-}) => {
-  if (!show) return null;
-
-  return (
-    <div style={modalStyles}>
-      <div style={modalContentStyles}>
-        <h3>Select a Zone</h3>
-        <select
-          value={selectedZone}
-          onChange={(e) => setSelectedZone(e.target.value)}
-          style={selectStyles}
-        >
-          <option value="">Select a Zone</option>
-          {zones.map((zone, index) => (
-            <option key={index} value={zone.name}>
-              {zone.name}
-            </option>
-          ))}
-        </select>
-        <select
-          value={selectedFeature}
-          onChange={(e) => setSelectedFeature(e.target.value)}
-          style={selectStyles}
-        >
-          <option value="">Select a Pincode</option>
-          {bangalore.features.map((feature, index) => {
-            const pincode = feature.properties.PINCODE;
-            return (
-              <option key={index} value={pincode}>
-                {pincode}
-              </option>
-            );
-          })}
-        </select>
-        <button onClick={onAddFeature} style={buttonStyles.add}>
-          Add Pincode
-        </button>
-        <button onClick={onClose} style={buttonStyles.cancel}>
-          Cancel
-        </button>
-      </div>
-    </div>
-  );
-};
 
 const BangaloreMap = () => {
   const [zones, setZones] = useState([]);
@@ -391,99 +320,11 @@ const BangaloreMap = () => {
           setSelectedZone={setSelectedZone}
           selectedFeature={selectedFeature}
           setSelectedFeature={setSelectedFeature}
+          bangalore={bangalore}
         />
       </div>
     </div>
   );
-};
-
-const modalStyles = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  backgroundColor: "rgba(0, 0, 0, 0.5)",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  zIndex: 999,
-};
-
-const modalContentStyles = {
-  backgroundColor: "#fff",
-  padding: "0px 15px 5px 15px",
-  borderRadius: "8px",
-  width: "300px",
-  textAlign: "center",
-};
-
-const selectStyles = {
-  marginBottom: "10px",
-  width: "100%",
-  padding: "8px",
-  borderRadius: "4px",
-  border: "1px solid #ccc",
-};
-
-const buttonStyles = {
-  add: {
-    backgroundColor: "#4CAF50",
-    color: "white",
-    padding: "10px 20px",
-    margin: "10px 0",
-    marginRight: 15,
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  cancel: {
-    backgroundColor: "#f44336",
-    color: "white",
-    padding: "10px 20px",
-    margin: "10px 0",
-    border: "none",
-    borderRadius: "4px",
-    cursor: "pointer",
-  },
-  addZone: {
-    width: "100%",
-    backgroundColor: "blue",
-    color: "white",
-    padding: 12,
-    marginTop: 5,
-    borderRadius: 5,
-  },
-};
-
-const noZonesContainerStyles = {
-  padding: "10px",
-  border: "1px dashed gray",
-  borderRadius: "5px",
-  textAlign: "center",
-};
-
-const zoneStyles = {
-  marginTop: "10px",
-  backgroundColor: "lightgray",
-  padding: "10px",
-  borderRadius: "8px",
-};
-
-const headerStyles = {
-  backgroundColor: "black",
-  color: "white",
-  padding: "10px",
-};
-
-const tableStyles = {
-  width: "100%",
-  // borderCollapse: "collapse",
-};
-
-const cellStyles = {
-  padding: "10px",
-  // border: "1px solid darkgray",
 };
 
 export default BangaloreMap;
