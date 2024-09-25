@@ -2,8 +2,7 @@ import React, { useState, useCallback } from "react";
 import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import bangalore from "../data/bangalore.json";
-import { FaTrash } from "react-icons/fa";
-import { BsBorderWidth } from "react-icons/bs";
+import { FaTrash, FaTimes } from "react-icons/fa";
 
 const Modal = ({
   show,
@@ -49,7 +48,7 @@ const Modal = ({
           })}
         </select>
         <button onClick={onAddFeature} style={buttonStyles.add}>
-          Add Feature
+          Add Pincode
         </button>
         <button onClick={onClose} style={buttonStyles.cancel}>
           Cancel
@@ -157,8 +156,19 @@ const BangaloreMap = () => {
     );
   };
 
+  const handleRemoveZone = (zoneName) => {
+    setZones((prevZones) => prevZones.filter((zone) => zone.name !== zoneName));
+  };
+
   return (
-    <div style={{ display: "flex", width: "100%" }}>
+    <div
+      style={{
+        display: "flex",
+        width: "100%",
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
       <div style={{ width: "75%" }}>
         <MapContainer
           center={[12.955185, 77.58]}
@@ -173,32 +183,74 @@ const BangaloreMap = () => {
         </MapContainer>
       </div>
 
-      <div style={{ width: "25%", padding: "10px" }}>
-        <button onClick={addZone} style={buttonStyles.add}>
-          Add Zone
+      <div
+        style={{
+          width: "25%",
+          padding: "10px",
+          overflowY: "auto",
+          height: "100vh",
+        }}
+      >
+        <div
+          style={{ flex: 1, backgroundColor: "gray", height: 1, marginTop: 5 }}
+        ></div>
+        <button onClick={addZone} style={buttonStyles.addZone}>
+          + Add Zone
         </button>
-        <div style={headerStyles}>
-          <h2>Zones</h2>
+
+        <div
+          style={{
+            flex: 1,
+            backgroundColor: "gray",
+            height: 1,
+            marginTop: 5,
+          }}
+        ></div>
+        <div
+          style={
+            (headerStyles,
+            { textAlign: "center", backgroundColor: "black", marginTop: 30 })
+          }
+        >
+          <h2 style={{ color: "white", padding: 15 }}>Zones</h2>
         </div>
         {zones.length === 0 ? (
-          <p>No zones available. Please add a zone.</p>
+          <div style={noZonesContainerStyles}>
+            <p style={{ color: "gray" }}>
+              No zones available. Please add a zone.
+            </p>
+          </div>
         ) : (
           zones.map((zone, index) => (
             <div key={index} style={zoneStyles}>
-              {/* <div style={{ textAlign: "center" }}>
-                <h3>{zone.name}</h3>
-              </div> */}
-
               <table style={tableStyles}>
                 <thead>
                   <tr style={{ background: "purple", color: "white" }}>
-                    <th style={cellStyles}>{zone.name}</th>
+                    <th style={cellStyles}>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span>{zone.name}</span>
+                        <FaTimes
+                          onClick={() => handleRemoveZone(zone.name)}
+                          style={{
+                            cursor: "pointer",
+                            color: "grey",
+                          }}
+                        />
+                      </div>
+                    </th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {zone.features.length === 0 ? (
                     <tr>
-                      <td style={cellStyles}>No features added.</td>
+                      <td style={cellStyles}>no pincodes added.</td>
                     </tr>
                   ) : (
                     zone.features.map((feature, idx) => (
@@ -278,55 +330,68 @@ const selectStyles = {
 };
 
 const buttonStyles = {
-  add: {
-    marginBottom: "10px",
+  addZone: {
+    marginTop: 10,
+    marginBottom: "5px",
     padding: "10px",
     background: "#007bff",
     color: "white",
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
-    marginRight: 10,
-    marginTop: 5,
+    width: "100%",
+  },
+  add: {
+    marginBottom: "5px",
+    padding: "10px",
+    background: "#007bff",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+    width: "100%",
   },
   cancel: {
+    marginTop: "5px",
     padding: "10px",
     background: "#dc3545",
     color: "white",
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
-    marginTop: 5,
+    width: "100%",
   },
 };
 
 const headerStyles = {
-  background: "black",
-  color: "white",
+  fontWeight: "bold",
+  fontSize: "20px",
+  marginBottom: "10px",
+};
+
+const noZonesContainerStyles = {
   padding: "10px",
+  border: "1px dashed gray",
   borderRadius: "5px",
   textAlign: "center",
-  marginTop: 5,
-  marginBottom: 10,
 };
 
 const zoneStyles = {
-  backgroundColor: "#f1f1f1",
   marginBottom: "10px",
-  padding: "10px",
+  border: "1px solid lightgray",
   borderRadius: "5px",
-  border: "0.5px solid lightgray",
+  padding: "10px",
 };
 
 const tableStyles = {
   width: "100%",
-  // borderCollapse: "collapse",
-  // marginTop: "15px",
+  borderCollapse: "collapse",
 };
 
 const cellStyles = {
+  border: "1px solid lightgray",
   padding: "10px",
-  border: "1px solid #ddd",
+  textAlign: "left",
 };
 
 export default BangaloreMap;
