@@ -59,9 +59,10 @@ export const buttonStyles = {
 
 export const noZonesContainerStyles = {
   padding: "10px",
-  border: "1px dashed gray",
+  border: "1px dashed lightgray",
   borderRadius: "5px",
   textAlign: "center",
+  color: "gray",
 };
 
 export const zoneStyles = {

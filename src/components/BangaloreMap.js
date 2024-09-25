@@ -1,18 +1,11 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import bangalore from "../data/bangalore.json";
-import { FaTrash, FaTimes } from "react-icons/fa";
 import { colors } from "../constants";
 import Modal from "./Modal";
-import {
-  buttonStyles,
-  cellStyles,
-  headerStyles,
-  noZonesContainerStyles,
-  tableStyles,
-  zoneStyles,
-} from "../styles";
+import { buttonStyles, headerStyles } from "../styles";
+import Map from "./Map";
+import ZoneList from "./ZoneList";
 
 const usedColors = new Set();
 
@@ -61,7 +54,7 @@ const BangaloreMap = () => {
         layer.setStyle({
           color: zoneColor,
           weight: 2,
-          fillOpacity: 0.5,
+          fillOpacity: 0.6,
         });
 
         layer.on({
@@ -186,19 +179,8 @@ const BangaloreMap = () => {
         overflow: "hidden",
       }}
     >
-      <div style={{ width: "75%" }}>
-        <MapContainer
-          key={mapKey} // Trigger re-render with new key
-          center={[12.955185, 77.58]}
-          zoom={11}
-          style={{ height: "100vh", width: "100%" }}
-        >
-          <TileLayer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-          />
-          <GeoJSON data={bangalore} onEachFeature={onEachFeature} />
-        </MapContainer>
+      <div style={{ width: "80%" }}>
+        <Map mapKey={mapKey} zones={zones} onEachFeature={onEachFeature} />
       </div>
 
       <div
@@ -232,84 +214,13 @@ const BangaloreMap = () => {
         >
           <h2 style={{ color: "white", padding: 15 }}>Zones</h2>
         </div>
-        {zones.length === 0 ? (
-          <div style={noZonesContainerStyles}>
-            <p style={{ color: "gray" }}>
-              No zones available. Please add a zone.
-            </p>
-          </div>
-        ) : (
-          zones.map((zone, index) => (
-            <div key={index} style={zoneStyles}>
-              <table style={tableStyles}>
-                <thead>
-                  <tr style={{ background: zone.color, color: "white" }}>
-                    <th style={cellStyles}>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <span
-                          style={{
-                            overflow: "hidden",
-                            whiteSpace: "nowrap",
-                            textOverflow: "ellipsis",
-                            maxWidth: maxWidth,
-                          }}
-                        >
-                          {zone.name}
-                        </span>
-                        <FaTimes
-                          onClick={() => handleRemoveZone(zone.name)}
-                          style={{
-                            cursor: "pointer",
-                            color: "black",
-                          }}
-                        />
-                      </div>
-                    </th>
-                  </tr>
-                </thead>
 
-                <tbody>
-                  {zone.features.length === 0 ? (
-                    <tr>
-                      <td style={cellStyles}>no pincodes added.</td>
-                    </tr>
-                  ) : (
-                    zone.features.map((feature, idx) => (
-                      <tr key={idx}>
-                        <td style={cellStyles}>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-around",
-                              alignItems: "center",
-                            }}
-                          >
-                            <span>{feature}</span>
-                            <FaTrash
-                              onClick={() =>
-                                handleRemoveFeature(zone.name, feature)
-                              }
-                              style={{
-                                cursor: "pointer",
-                                color: "darkgray",
-                              }}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-            </div>
-          ))
-        )}
+        <ZoneList
+          zones={zones}
+          handleRemoveZone={handleRemoveZone}
+          handleRemoveFeature={handleRemoveFeature}
+          maxWidth={maxWidth}
+        />
 
         <Modal
           show={showModal}
