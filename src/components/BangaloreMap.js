@@ -5,31 +5,30 @@ import bangalore from "../data/bangalore.json";
 import { FaTrash, FaTimes } from "react-icons/fa";
 
 const colors = [
-  "#FF6F61", // Medium Coral
-  "#FF8C00", // Dark Orange
-  "#FFD700", // Gold
-  "#CD5C5C", // Indian Red
-  "#D2691E", // Medium Chocolate
-  "#FF4500", // Orange Red
-  "#ADFF2F", // Green Yellow
-  "#3CB371", // Medium Sea Green
-  "#8B4513", // Saddle Brown
-  "#BA55D3", // Medium Orchid
-  "#8B0000", // Dark Red
-  "#DC143C", // Crimson
-  "#FF1493", // Deep Pink
-  "#DDA0DD", // Plum
-  "#32CD32", // Lime Green
-  "#FFB6C1", // Light Pink
-  "#FF7F50", // Coral
-  "#FF6347", // Tomato
-  "#B8860B", // Dark Goldenrod
-  "#F08080", // Light Coral
-  "#FFDAB9", // Peach Puff
-  "#FF69B4", // Hot Pink
-  "#C71585", // Medium Violet Red
-  "#FFDEAD", // Navajo White
+  "#FF5733", // Vivid Red-Orange
+  "#33FF57", // Bright Green
+  "#3357FF", // Bright Blue
+  "#FF33A1", // Vivid Pink
+  "#F1C40F", // Bright Yellow
+  "#8E44AD", // Vivid Purple
+  "#1ABC9C", // Bright Teal
+  "#E67E22", // Vivid Orange
+  "#2C3E50", // Dark Blue-Gray
+  "#D35400", // Dark Orange
+  "#9B59B6", // Amethyst
+  "#2980B9", // Bright Azure
+  "#C0392B", // Bright Red
+  "#F39C12", // Vivid Gold
+  "#27AE60", // Medium Green
+  "#34495E", // Dark Slate Blue
+  "#FF9F00", // Vivid Amber
   // "#C0C0C0", // Silver
+  "#2ECC71", // Medium Green
+  "#E74C3C", // Vivid Red
+  "#8E44AD", // Purple
+  "#3498DB", // Light Blue
+  "#F1C40F", // Yellow
+  "#DCDCDC", // Gainsboro
 ];
 
 const usedColors = new Set();
