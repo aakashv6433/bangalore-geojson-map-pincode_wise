@@ -41,6 +41,8 @@ const ZoneList = ({
                           whiteSpace: "nowrap",
                           textOverflow: "ellipsis",
                           maxWidth: maxWidth,
+                          fontSize: "18px",
+                          textShadow: "1px 1px 2px rgba(0, 0, 0, 0.6)", // Subtle shadow for the text
                         }}
                       >
                         {zone.name}
